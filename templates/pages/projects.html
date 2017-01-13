@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <table>
+    <tr>
+      <th>Name</th>
+
+    </tr>
+    {% for project in projects %}
+    <tr>
+      <td>{{ project.readme.title }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
