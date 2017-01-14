@@ -1,8 +1,6 @@
-import json
 import requests
 import requests.exceptions
 import os
-from urllib.parse import urlparse, urljoin
 
 from config import *
 from github import Github
@@ -96,7 +94,7 @@ class Project:
     @lazy_property
     def members(self):
         contributors = {}
-        for commit in self.commits.values():
+        for commit in self.commits:
             # Some commits are done using email addresses not associated with a Github account
             # In that case both author and committer are not available. We'll ignore these cases.
             if not commit.contributor:
