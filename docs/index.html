@@ -606,19 +606,23 @@
     var targetWidth = 300;
     var containerWidth = container.getBoundingClientRect().width;
     var rowSize = Math.max(Math.floor(containerWidth / targetWidth), 1);
-    var actualSize = Math.floor(containerWidth / rowSize) - 1;
+    var actualSize = Math.floor(containerWidth / rowSize);
 
-    imagesLoaded(container, function() {
-      var items = container.querySelectorAll(itemSelector);
-      for (var i = 0; i < items.length; i++) {
-        items[i].style.width = actualSize + 'px';
-      }
+    // Resize items
+    var items = container.querySelectorAll(itemSelector);
+    for (var i = 0; i < items.length; i++) {
+      items[i].style.width = actualSize + 'px';
+    }
 
-      new Masonry(container, {
-        itemSelector: itemSelector,
-        columnWidth: actualSize,
-      });
-    })
+    // Set up masonry
+    var masonry = new Masonry(container, {
+      itemSelector: itemSelector,
+      columnWidth: actualSize,
+    });
+
+    imagesLoaded(container).on('progress', function() {
+      masonry.layout();
+    });
   </script>
 </body>
 </html>

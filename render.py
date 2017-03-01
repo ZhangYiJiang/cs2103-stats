@@ -18,5 +18,5 @@ html = render_page('pages/projects.html', {
     'projects': stats.projects,
 })
 
-with open('pages/index.html', encoding='utf-8', mode='w') as f:
+with open('docs/index.html', encoding='utf-8', mode='w') as f:
     f.write(html)
