@@ -34,6 +34,8 @@ def parse_project_id(project_id: str):
 
 
 class Project:
+    image_dir = 'projects'
+
     """
     Represents a single CS2103/T project.
     """
@@ -66,6 +68,10 @@ class Project:
     @property
     def title(self):
         return OVERRIDE['TITLE'].get(self.org, self.readme.title)
+
+    @property
+    def images(self):
+        return list(filter(lambda f: f.startswith(self.org), os.listdir(self.image_dir)))
 
     @lazy_property
     def _gradle(self):
@@ -107,7 +113,7 @@ class Project:
         return {k: v for k, v in contributors.items() if k not in PARENT_CONTRIBUTORS}
 
     def download_images(self):
-        base = 'projects/{}'.format(self.org)
+        base = '{}/{}'.format(self.image_dir, self.org)
         for i, img in enumerate(self.readme.images):
             name, ext = os.path.splitext(img)
             download_path = '{}_{}{}'.format(base, i, ext)

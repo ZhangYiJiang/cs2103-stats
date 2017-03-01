@@ -6,6 +6,7 @@ from config import *
 from github import Github
 from project import Project, parse_project_id
 from decorators import lazy_property
+from operator import itemgetter
 
 
 github = Github(GITHUB_USERNAME, GITHUB_TOKEN)
@@ -47,6 +48,16 @@ class Stats:
         for project in self.projects.values():
             for commit in project.commits:
                 counts[project.day][(commit.time.weekday(), commit.time.hour)] += 1
+
+        # Reorder by hour
+        for tutorial_day in counts.keys():
+            commits_by_hour = {}
+            for day in range(7):
+                for hour in range(24):
+                    key = (day, hour)
+                    commits_by_hour[key] = counts[tutorial_day].get(key, 0)
+            counts[tutorial_day] = commits_by_hour
+
         return counts
 
     def analyze_commit_week(self):
@@ -55,6 +66,12 @@ class Stats:
             week = commit.time.week - PROJECT_START_WEEK
             if 0 < week <= PROJECT_LENGTH_WEEK:
                 count[week] += 1
+        return count
+
+    def project_commits(self):
+        count = defaultdict(list)
+        for project in self.projects.values():
+            count[len(project.members)].append(len(project.commits))
         return count
 
 stats = Stats(github, GITHUB_ORGS)

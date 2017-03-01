@@ -61,7 +61,7 @@ class ReadmeParser:
 
     @property
     def images(self):
-        img = self.soup.find_all(src=re.compile(r'\.(png|jpe?g|gif)$'))
+        img = self.soup.find_all(src=re.compile(r'\.(png|jpe?g|gif)$', flags=re.I))
         return [i['src'] for i in img]
 
     @property
