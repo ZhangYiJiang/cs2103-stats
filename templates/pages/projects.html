@@ -1,15 +1,42 @@
 {% extends "base.html" %}
 
-{% block body %}
-  <table>
-    <tr>
-      <th>Name</th>
+{% block title %}CS2103T AY16/17 Sem 1 Projects{% endblock %}
 
-    </tr>
-    {% for project in projects %}
-    <tr>
-      <td>{{ project.readme.title }}</td>
-    </tr>
+{% block body %}
+  <div class="project-list">
+    {% for org, project in projects.items() %}
+      <a class="project-grid-item" href="{{ project.repo['html_url'] }}" target="_blank">
+        <figure>
+          <img src="img/{{ project.org | lower }}.jpeg" alt="" />
+          <figcaption>
+            <h3 class="title">{{ project.title }} <span class="project-code">{{ project.org }}</span></h3>
+            <div class="commits"><strong>{{ project.commits | count }}</strong> commits</div>
+          </figcaption>
+        </figure>
+      </a>
     {% endfor %}
-  </table>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    var container = document.querySelector('.project-list');
+    var itemSelector = '.project-grid-item';
+    var targetWidth = 300;
+    var containerWidth = container.getBoundingClientRect().width;
+    var rowSize = Math.max(Math.floor(containerWidth / targetWidth), 1);
+    var actualSize = Math.floor(containerWidth / rowSize);
+
+    imagesLoaded(container, function() {
+      var items = container.querySelectorAll(itemSelector);
+      for (var i = 0; i < items.length; i++) {
+        items[i].style.width = actualSize + 'px';
+      }
+
+      new Masonry(container, {
+        itemSelector: itemSelector,
+        columnWidth: actualSize,
+      });
+    })
+  </script>
 {% endblock %}
