@@ -604,24 +604,42 @@
     var container = document.querySelector('.project-list');
     var itemSelector = '.project-grid-item';
     var targetWidth = 300;
-    var containerWidth = container.getBoundingClientRect().width;
-    var rowSize = Math.max(Math.floor(containerWidth / targetWidth), 1);
-    var actualSize = Math.floor(containerWidth / rowSize);
 
-    // Resize items
-    var items = container.querySelectorAll(itemSelector);
-    for (var i = 0; i < items.length; i++) {
-      items[i].style.width = actualSize + 'px';
+    function resize() {
+      // Calculate size
+      var containerWidth = container.getBoundingClientRect().width;
+      var rowSize = Math.max(Math.floor(containerWidth / targetWidth), 1);
+      var actualSize = Math.floor((containerWidth - 1) / rowSize);
+
+      // Resize items
+      var items = container.querySelectorAll(itemSelector);
+      for (var i = 0; i < items.length; i++) {
+        items[i].style.width = actualSize + 'px';
+      }
+
+      return actualSize;
     }
 
     // Set up masonry
+    var actualSize = resize();
     var masonry = new Masonry(container, {
       itemSelector: itemSelector,
       columnWidth: actualSize,
+      resize: false,
     });
 
     imagesLoaded(container).on('progress', function() {
       masonry.layout();
+    });
+
+    // Debounced resize check
+    var timeoutId;
+    window.addEventListener('resize', function(){
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(function () {
+        masonry.option({ columnWidth: resize() });
+        masonry.layout();
+      }, 300);
     });
   </script>
 </body>

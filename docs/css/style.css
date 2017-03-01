@@ -12,6 +12,7 @@ body {
 .project-list a {
     padding: 2px;
     display: block;
+    transition: 0.15s background;
 }
 
 .project-list a:hover {
@@ -35,7 +36,7 @@ body {
     bottom: 0;
 
     padding: 10px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
 
     color: #fff;
     font-size: 12px;
@@ -58,7 +59,6 @@ body {
 
 .commit-graph h3 {
     position: absolute;
-    top: 10px;
     left: 10px;
     font-weight: normal;
     color: #999;
@@ -67,7 +67,7 @@ body {
 .graph-container {
     display: flex;
     align-items: flex-end;
-    height: 400px;
+    height: 200px;
     border-bottom: 1px solid #999;
 }
 
@@ -75,6 +75,7 @@ body {
     flex: 1 auto;
     background: #ffcc80;
     opacity: 0.7;
+    transition: opacity 0.3s;
 }
 
 .graph-container div:hover {
@@ -94,7 +95,7 @@ body {
 }
 
 .graph-axis-day {
-    width: 14.2857143%;
+    width: 14.2857143%; /* 1/7 */
     display: flex;
     flex-wrap: wrap;
 }
