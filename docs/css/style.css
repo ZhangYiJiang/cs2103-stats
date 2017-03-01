@@ -46,3 +46,80 @@
     font-size: 12px;
     font-weight: normal;
 }
+
+.commit-graph {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.commit-graph h3 {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-weight: normal;
+    color: #999;
+}
+
+.graph-container {
+    display: flex;
+    align-items: flex-end;
+    height: 400px;
+    border-bottom: 1px solid #999;
+}
+
+.graph-container div {
+    flex: 1 auto;
+    background: #ffcc80;
+    opacity: 0.7;
+}
+
+.graph-container div:hover {
+    opacity: 1;
+}
+
+.graph-container .tutorial_day {
+    background: #ffa726;
+}
+
+.graph-container .before_tutorial_day {
+    background: #e65100;
+}
+
+.graph-axis-bottom {
+    display: flex;
+}
+
+.graph-axis-day {
+    width: 14.2857143%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.graph-hour-tick {
+    font-size: 11px;
+    color: #999;
+    width: 25%;
+    padding: 4px;
+    position: relative;
+}
+
+.graph-hour-tick:before {
+    content: '';
+    border-left: 1px solid;
+    height: 8px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.graph-axis-day:not(:first-child) .graph-hour-tick:first-child:before {
+    height: 160%;
+}
+
+
+.graph-day-tick {
+    width: 100%;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+}

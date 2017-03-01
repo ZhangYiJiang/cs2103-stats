@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}CS2103T AY16/17 Sem 1 Projects{% endblock %}
+
+{% block body %}
+  {% for day, commits in commits.items() %}
+    <div class="commit-graph {{ day_name[day] | lower }}">
+      <h3 class="graph-heading">{{ day_name[day] }}</h3>
+      <div class="graph-container">
+        {% set max_count = max(commits.values()) %}
+
+        {% macro graph_bar(count, class=None) -%}
+          <div{{ { 'class': class,
+                   'title': '{} commits'.format(count),
+                   'style': 'height:{}%'.format((count / max_count) * 100),
+                 } | xmlattr }}></div>
+        {%- endmacro %}
+
+        {% for hour, count in commits | dictsort %}
+          {% if hour[0] == day and hour[1] < 12 %}
+            {{ graph_bar(count, "tutorial_day") }}
+          {% elif hour[0] == day - 1 and hour[1] >= 12 %}
+            {{ graph_bar(count, "before_tutorial_day") }}
+          {% else %}
+            {{ graph_bar(count) }}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="graph-axis-bottom">
+        {% for axis_day in range(7) %}
+          <div class="graph-axis-day">
+            {% for axis_hour in range(0, 24, 6) %}
+              <div class="graph-hour-tick">{{ axis_hour }}</div>
+            {% endfor %}
+            <div class="graph-day-tick">{{ day_name[axis_day][0] }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
